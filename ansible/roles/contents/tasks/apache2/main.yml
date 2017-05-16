@@ -1,0 +1,29 @@
+---
+
+    - name: Create web root folder for web user
+      file:
+        path:  '{{ www_root }}'
+        owner: '{{ web_user }}'
+        group: '{{ web_group }}'
+        mode: 0755
+        state: directory
+
+
+    - name: Create Folders for {{ server_name }} Server Name
+      file: path="{{ item }}" state="directory" owner="{{ web_user }}" group="{{ web_group }}"
+      with_items:
+        - '{{ base_path }}'
+        - '{{ web_base_path }}'
+
+    - name: create virtual host file for {{ server_name }} Server Name
+      template: src=apache2/{{ vhost_j2_file }} dest=/etc/apache2/sites-available/{{ vhost_file }}
+
+    - name: a2dissite 000-default
+      command: a2dissite 000-default
+
+    - name: a2ensite {{ vhost_file }}
+      command: a2ensite {{ vhost_file }}
+      args:
+        creates: /etc/apache2/sites-enabled/{{ vhost_file }}
+      notify:
+        - restart apache2

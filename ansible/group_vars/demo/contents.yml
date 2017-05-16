@@ -1,0 +1,22 @@
+---
+
+# VHOST CUSTOM SET UP
+server_name: mb.demo.intranet
+server_alias: 'www.mb.demo.intranet'
+directory_index: 'app_dev.php'
+base_path: /var/www/demo/
+web_base_path: '{{ base_path }}web'
+vhost_j2_file: vhost.mb.demo.intranet.conf.j2
+vhost_file: vhost.mb.demo.intranet.conf
+
+
+# MARIADB CUSTOM SETUP
+databases:
+    test:
+        name:     'mb_test'
+        user:     'mb_test'
+        password: 'mb_test'
+    dev:
+        name:     'mb_dev'
+        user:     'mb_dev'
+        password: 'mb_dev'

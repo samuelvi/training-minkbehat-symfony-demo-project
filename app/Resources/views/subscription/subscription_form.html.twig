@@ -1,0 +1,54 @@
+{% extends ':layouts:base.html.twig' %}
+
+{% block content %}
+<div id="subscription_wrapper" style="min-height: 100%; height: 100%;">
+
+    <div class="form_errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row form">
+
+        <form action="{{ url('subscription_add') }}" {{ form_enctype(form) }} method="POST" role="form" id="subscription_form" novalidate>
+
+            <div class="col-xs-12">
+                {{ form_label(form.email, 'E-mail *') }}
+                {{ form_widget(form.email) }}
+                <div class="has-error">{{ form_errors(form.email) }}</div>
+            </div>
+
+            <div class="col-xs-12">
+                {{ form_label(form.fullname, 'Full Name *') }}
+                {{ form_widget(form.fullname) }}
+                <div class="has-error">{{ form_errors(form.fullname) }}</div>
+            </div>
+
+            <div class="col-xs-12">
+                {{ form_label(form.legal) }}
+                {{ form_widget(form.legal) }}
+                <div class="has-error">{{ form_errors(form.legal) }}</div>
+            </div>
+
+            <div class="col-xs-12">
+                <button class="btn btn-primary btn-action" role="button" id="subscription_button">Request Subscription Registration</button>
+            </div>
+
+            {{ form_rest(form) }}
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/subscription.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            var submitFormManager = new SubmitFormManager({formId: 'subscription_form'});
+            submitFormManager.initialize();
+        });
+</script>
+
+{% endblock %}

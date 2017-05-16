@@ -1,0 +1,92 @@
+{% extends ':layouts:base.html.twig' %}
+
+{% block head %}
+    <head>
+        <meta charset="UTF-8"/>
+
+        <title>{% block title %}Mink Behat Demo and Don't Go Headless{% endblock %}</title>
+
+
+        {% block meta_seo %}
+            <meta name="keywords" content="Symfony, Mink, Behat">
+            <meta name="description" content="Mink Behat Demo - Don't go headless">
+        {% endblock meta_seo %}
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="Samuel Vicent">
+
+        {% block head_stylesheet %}
+            {{ parent() }}
+            <link rel="stylesheet" href="{{ asset('bundles/app/css/frontend.css') }}"></link>
+        {% endblock %}
+
+        {% block favicon %}
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+        {% endblock favicon %}
+    </head>
+{% endblock %}
+
+{% block body %}
+<body>
+
+    {% block top_menu %}
+        <div id="loader-wrapper">
+            <div id="loader-background"></div>
+            <div id="loader-spin"></div>
+        </div>
+
+        <nav class="navbar navbar-static-top navbar-dark bg-inverse">
+            <div class="container">
+                <div class="col-xs-12">
+                    <a class="navbar-brand" href="{{ url('homepage') }}">Home Page
+                        <span class="sr-only">(current)</span></a>
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item active">
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('products') }}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('contact_form') }}">Contact</a>
+                        </li>
+                        <li class="nav-item">
+
+
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                                <a href="{{ path('fos_user_security_logout') }}">
+                                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                </a>
+                            {% else %}
+                                {#{{ 'layout.login'|trans({}, 'FOSUserBundle') }}#}
+                                <a href="{{ path('fos_user_security_login') }}" title="Go to Login Page">Login</a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    {% endblock top_menu %}
+
+    {% block flash_messages %}
+        {% include '::/layouts/frontend/views/flash.html.twig' %}
+    {% endblock flash_messages %}
+
+    {% block content %}
+    {% endblock content %}
+
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+
+    {% block footer %}
+        <footer>
+            <p>Heroes at minkbehat.com 2016 &copy;</p>
+            <a href="{{ path('legal_cookies') }}">Cookies Policy</a>
+            <a href="{{ path('legal_terms_and_conditions') }}">Terms & Conditions</a>
+        </footer>
+    {% endblock footer %}
+
+{% endblock body %}

@@ -1,0 +1,27 @@
+services:
+
+    app.domain_manager.subscription_manager:
+        class: AppBundle\DomainManager\SubscriptionManager
+        arguments: ['@doctrine.orm.entity_manager', '@event_dispatcher']
+
+    app.form_handler.subscription_handler:
+        class: AppBundle\Form\Handler\SubscriptionHandler
+        arguments: ['@app.domain_manager.subscription_manager']
+
+    app.event_listener.send_subscription_confirmation_mail_listener:
+        class: AppBundle\EventListener\SendSubscriptionConfirmationMailListener
+        tags:
+            - { name: kernel.event_listener, event: new_subscription_created, method: onNewSubscription }
+        arguments: ['@app.service.mailer']
+
+    app.event_listener.subscription_tracker_listener:
+        class: AppBundle\EventListener\SubscriptionTrackerListener
+        parent: app.event_listener.abstract_controller_annotation_listener
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+        arguments: ['@annotation_reader', '@app.monolog.monolog_manager_subscription']
+
+    app.event_listener.create_subscription_event_subscriber:
+        class: AppBundle\EventListener\CreateSubscriptionEventSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }

@@ -1,0 +1,18 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block header_custom_menu %}
+    <ul class="nav navbar-nav">
+        <li class="user user-menu">
+            {% block user_menu %}
+                <span class="sr-only">{{ 'user.logged_in_as'|trans(domain = 'EasyAdminBundle') }}</span>
+                <i class="hidden-xs fa fa-user"></i>
+                {% if app.user %}
+                    {{ app.user.username|default('user.unnamed'|trans(domain = 'EasyAdminBundle')) }} | <a style="display: inline; color: rgba(255, 255, 255, 0.8);background:none;" href="{{ path('fos_user_security_logout') }}" title="logout">logout</a>
+                {% else %}
+                    {{ 'user.anonymous'|trans(domain = 'EasyAdminBundle') }}
+                {% endif %}
+            {% endblock user_menu %}
+        </li>
+    </ul>
+{% endblock header_custom_menu %}
+

@@ -1,0 +1,29 @@
+{% extends 'layouts/frontend/layout.html.twig' %}
+
+{%- block body -%}
+
+    {% if flashbag is defined %}
+    {% for key, flashMessage in flashbag %}
+    <div class="flash-notice {{ key }}">
+        {{ flashMessage }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+   {% if title is defined %}<h1>{{ title }}</h1>{% endif %}
+   {% if messages is defined %}
+       {% for message in messages %}
+           <p>{{ message }}</p>
+       {% endfor %}
+   {% endif %}
+   {% if footer is defined %}<h6>{{ footer }}</h6>{% endif %}
+
+{%- endblock body -%}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}

@@ -1,0 +1,31 @@
+<VirtualHost *:{{ http_port }}>
+    ServerName  {{ server_name }}
+    ServerAlias {{ server_alias }}
+
+    DocumentRoot {{ web_base_path }}
+    DirectoryIndex {{ directory_index }}
+
+    <Directory {{ web_base_path }}>
+        Require all granted
+
+        <IfModule mod_rewrite.c>
+            Options -MultiViews
+            RewriteEngine On
+
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ {{ directory_index }} [QSA,L]
+
+        </IfModule>
+    </Directory>
+
+
+    # ErrorLog ${APACHE_LOG_DIR}/error.log
+    ErrorLog {{ base_path }}error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+    LogLevel warn
+
+    # CustomLog ${APACHE_LOG_DIR}/access.log combined
+    CustomLog {{ base_path }}access.log combined
+
+</VirtualHost>

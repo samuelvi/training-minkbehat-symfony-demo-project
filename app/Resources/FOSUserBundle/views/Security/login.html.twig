@@ -1,0 +1,48 @@
+{% extends "::layouts/frontend/layout.html.twig" %}
+
+{% block content %}
+
+    {% embed "layouts/frontend/views/jumbotron.html.twig" %}
+        {% block title %}
+            <h1>Integrating Mink + Behat in Symfony</h1>
+        {% endblock title %}
+        {% block subtitle %}
+            <h2>You are here: <b>Login Form</b></h2>
+        {% endblock subtitle %}
+    {% endembed %}
+
+{% endblock content %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        input {
+            display: block;
+        }
+
+        form {
+            padding: 20px;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block fos_user_content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="login-content">
+                    <div class="center-content">
+                        <p class="demo-text">DEMO: user/password: admin/admin</p>
+
+                        {{ include('FOSUserBundle:Security:login_content.html.twig') }}
+                        <a href="{{ path('fos_user_resetting_request') }}">Forgot your password? Click here to request a
+                            password reset</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock fos_user_content %}

@@ -1,0 +1,6 @@
+monolog:
+    channels: ['subscription']
+    handlers:
+        subscription:
+            type: stream
+            channels: ['subscription']

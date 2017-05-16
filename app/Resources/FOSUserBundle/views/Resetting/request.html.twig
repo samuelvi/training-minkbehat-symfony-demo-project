@@ -1,0 +1,29 @@
+{% extends "::layouts/frontend/layout.html.twig" %}
+
+{% block content %}
+    {% embed "layouts/frontend/views/jumbotron.html.twig" %}
+        {% block title %}
+            <h1>Integrating Mink + Behat in Symfony</h1>
+        {% endblock title %}
+        {% block subtitle %}
+            <h2>You are here: <b>Request new password</b></h2>
+        {% endblock subtitle %}
+    {% endembed %}
+{% endblock content %}
+
+{% block fos_user_content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="login-content">
+                    <div class="center-content">
+                            {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock fos_user_content %}

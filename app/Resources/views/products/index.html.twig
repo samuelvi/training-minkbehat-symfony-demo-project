@@ -1,0 +1,44 @@
+{% extends 'layouts/frontend/layout.html.twig' %}
+
+
+    {% block content %}
+        {% embed "layouts/frontend/views/jumbotron.html.twig" %}
+            {% block subtitle %}
+                <h2>You are here: <b>List of Products</b></h2>
+            {% endblock subtitle %}
+        {% endembed %}
+
+        <div class="container product-categories">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ grid ( categories, 'categories/grid.html.twig' ) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+
+                {% for product in products.getCurrentPageResults() %}
+                    <div class="col-md-4">
+                        <div class="product" data-id="{{ product.product_id }}">
+                            <h1 class="title">{{ product.product_name }}</h1>
+                            <hr>
+                            <h2 class="description">{{ product.product_description }}</h2>
+                            <span class="category">Category: <b>{{ product.category_name }}</b></span>
+                            <span class="divider">|</span>
+                            <span class="price">Price: <b>{{ product.product_price }}€</b></span>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ pagerfanta(products, 'twitter_bootstrap3', { 'proximity': 2}) }}
+                </div>
+            </div>
+
+        </div>
+    {% endblock %}

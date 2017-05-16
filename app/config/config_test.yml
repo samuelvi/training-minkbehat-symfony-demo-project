@@ -1,0 +1,26 @@
+imports:
+    - { resource: config_dev.yml }
+    - { resource: test/parameters.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        collect: true
+        only_exceptions: false
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+    # Exclude AJAX requests in the web debug toolbar for specified paths
+    excluded_ajax_paths: ^/bundles|^/_wdt
+
+swiftmailer:
+    mailers:
+        default:
+            disable_delivery: false
+            delivery_address: %mailer_user%
+
+#            spool:
+#                type: file

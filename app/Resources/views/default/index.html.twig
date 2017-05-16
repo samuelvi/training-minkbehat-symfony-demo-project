@@ -1,0 +1,83 @@
+{% extends 'layouts/frontend/layout.html.twig' %}
+
+{% block content %}
+<div class="homepage">
+    {% embed "layouts/frontend/views/jumbotron.html.twig" %}
+        {% block title %}
+            <h1>Integrating Mink + Behat in Symfony</h1>
+        {% endblock title %}
+        {% block subtitle %}
+            <h2>Don't go headless</h2>
+        {% endblock subtitle %}
+    {% endembed %}
+
+    <div class="container homepage-content">
+        <div class="row-fluid">
+            <div class="col-md-4 pull-right">
+                <div class="sidebar">
+                    <h2>Newsletter</h2>
+                    {{ render(controller('AppBundle:Subscription:add')) }}
+                    <hr>
+                    <h2>Dashboard</h2>
+                    <a class="btn btn-primary btn-md" href="{{ url('products') }}" role="button">List Products</a>
+
+                    <hr>
+                    <h2>Legal</h2>
+                    <div style="min-width: 100%; position: relative; left: 0; top: 0; min-height: 80px; background: rgba(150, 150, 0, 0.1);">
+
+                        <div style="position: absolute; left: 0; top: 0; min-width: 100%; height: 200px; z-index: 100; ">
+
+                        </div>
+
+                        <div style="position: absolute; left: 0; top: 0; min-width: 100%; z-index: 0;">
+
+                            <ul class="legal">
+                                <li>
+                                    <a href="{{ path('legal_cookies') }}">Legal Cookies Policy</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('legal_terms_and_conditions') }}">Legal Terms & Conditions</a>
+                                </li>
+                            </ul>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 pull-left">
+                <div class="col-md-12">
+                    <h2>Welcome</h2>
+                    <p><p>Welcome to the Demo page for Mink+Behat Symfony integration</p>
+                    <p>A complete set of tests that covers the most usual functionalities given in most of the world wide web pages.</p>
+                </div>
+
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+
+                <div class="col-md-12">
+                    <h2>Instructions</h2>
+
+                    <ul>
+                        <li>Download the project (request for download access)</li>
+                        <li>From inside ansible folder run <pre>vagrant up</pre></li>
+                        <li>Provision the virtual machine by running <pre>sudo ./playbook.yml</pre></li>
+                        <li>Prepare web assets: <pre>php bin/console assets:install --symlink</pre></li>
+                        <li>Create tables schema by running <pre>bin/console doctrine:migrations:migrate</pre></li>
+                        <li>FosUserBundle table creatigon: <pre>php bin/console doctrine:schema:update --force</pre></li>
+                        <li>Run DataFixtures: <pre>bin/console doctrine:fixtures:load</pre></li>
+                        <li>Or just create your own admin user with empty database: Create admin user: <pre>bin/console fos:user:create admin admin admin admin admin --super-admin</pre></li>
+                        <li>It's time to play!</li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,135 @@
+---
+
+- name: repository php56
+  apt_repository: repo='ppa:ondrej/php' state=present
+
+
+- name: Install libapache2-mod-fastcgi
+  apt: pkg={{item}} state=installed update_cache=no
+  with_items:
+  - libapache2-mod-fastcgi
+
+- name: Copy php5-fpm.conf
+  template: src=php5-fpm.conf.j2 dest=/etc/apache2/conf-available/php5-fpm.conf
+
+- name: link php5-fpm.conf conf-available to conf-enabled
+  file: src=/etc/apache2/conf-available/php5-fpm.conf dest=/etc/apache2/conf-enabled/php5-fpm.conf state=link
+
+
+- name: Install the php packages (APT)
+  apt: >
+    name={{ item }}
+    state=present
+    update_cache=yes
+    cache_valid_time={{ apt_cache_valid_time }}
+  with_items: "{{ php_fpm_apt_packages }}"
+#  environment: "{{ env }}"
+  notify:
+     - restart php-fpm
+  tags: [packages,php,fpm]
+
+
+- name: Copy the PHP configuration file
+  ini_file: >
+    dest={{ php_fpm_ini_path }}
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+    backup=yes
+  with_items: "{{ php_fpm_ini }}"
+  notify:
+   - restart php-fpm
+  tags: [configuration,php,fpm]
+
+
+- name: Copy the FPM configuration
+  ini_file: >
+    dest={{ php_fpm_config_path }}
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+    backup=yes
+  with_items: "{{ php_fpm_config }}"
+  register: copy_fpm_config
+  notify:
+   - restart php-fpm
+  tags: [configuration,php,fpm]
+
+- name: Delete the include line from the ini file
+  ini_file: >
+    dest={{ php_fpm_config_path }}
+    section=global
+    option=include
+    state=absent
+    backup=no
+  when: copy_fpm_config.changed
+  notify:
+   - restart php-fpm
+  tags: [configuration,php,fpm]
+
+- name: Readd the include line to the ini file
+  ini_file: >
+    dest={{ php_fpm_config_path }}
+    section=global
+    option=include
+    value="{{ php_fpm_pool_d }}/*.conf"
+    state=present
+    backup=no
+  when: copy_fpm_config.changed
+  notify:
+   - restart php-fpm
+  tags: [configuration,php,fpm]
+
+- name: Delete the default POOL configuration file
+  file: >
+    path={{ php_fpm_pool_d }}/{{ php_fpm_default_pool.name }}
+    state=absent
+  when: php_fpm_default_pool.delete
+  tags: [configuration,php,fpm]
+
+- name: Copy the POOL configurations
+  template: >
+    src=pool.conf.j2
+    dest={{ php_fpm_pool_d }}/{{ item['name'] }}.conf
+    backup=yes
+  with_items: "{{ php_fpm_pools }}"
+  when: php_fpm_pools|lower != 'none'
+  notify:
+   - restart php-fpm
+  tags: [configuration,php,fpm]
+
+- name: Check php-fpm syntax of configuration files
+  shell: "{{ php_fpm_binary_name }} -t"
+  register: result
+  changed_when: "result.rc != 0"
+  tags: [configuration,php,fpm]
+
+
+- name: restart php-fpm
+  service: name={{php_fpm_binary_name}} state=restarted
+
+# FALLA :(
+#- name: disable php (mod_php)
+#  apache2_module: state=absent name=php5
+#  sudo: yes
+
+
+#- name: enable php5-fpm
+#  apache2_module: state=present name='php5-fpm'
+#  ignore_errors: true
+#  sudo: yes
+
+- name: change permissions
+  file: path=/var/run/php5-fpm.sock owner={{ web_user }} group={{ web_group }} mode=0666
+
+- name: change permissions
+  file: path=/var/lib/apache2/fastcgi owner={{ web_user }} group={{ web_group }} mode=0755
+  sudo: yes
+
+- name: Start the php5-fpm service
+  service: name={{ php_fpm_service_name }} state=started enabled=yes
+  tags: [service,php,fpm]
+
+- name: change permissions
+  file: path=/var/lib/apache2/fastcgi owner={{ web_user }} group={{ web_group }} mode=0755
+  sudo: yes

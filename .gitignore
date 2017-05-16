@@ -1,0 +1,31 @@
+# /app/config/parameters.yml
+/build/
+/phpunit.xml
+/var/*
+!/var/cache
+/var/cache/*
+!var/cache/.gitkeep
+!/var/logs
+/var/logs/*
+!var/logs/.gitkeep
+!/var/sessions
+/var/sessions/*
+!var/sessions/.gitkeep
+!var/SymfonyRequirements.php
+/vendor/
+/web/bundles/
+.DS_Store
+.idea
+vendor (copy)
+access.log
+error.log
+var/cache
+var/logs
+var/sessions
+app/cache
+app/logs
+src/AppBundle/Tests/MinkBehat/screenshots
+vendor
+/src/AppBundle/Tests/MinkBehat/**/*.feature
+/src/AppBundle/Tests/MinkBehat/**/*.php
+data/swiftmailer/spool/default/*

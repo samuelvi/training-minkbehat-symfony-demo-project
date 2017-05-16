@@ -1,0 +1,74 @@
+{% extends 'layouts/frontend/layout.html.twig' %}
+
+{% block content %}
+
+    {% embed "layouts/frontend/views/jumbotron.html.twig" %}
+        {% block title %}
+            <h1>Integrating Mink + Behat in Symfony</h1>
+        {% endblock title %}
+        {% block subtitle %}
+            <h2>You are here: <b>Contact Form</b></h2>
+        {% endblock subtitle %}
+    {% endembed %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="contact-content">
+                    <div class="center-content">
+
+                        <form action="{{ path('contact_form') }}" {{ form_enctype(form) }} method="POST" role="form" novalidate>
+
+                            <div class="control-group" style="margin-bottom:15px">
+                                {{ form_label(form.fullname, 'Full name') }}
+                                {{ form_errors(form.fullname) }}
+                                <div class="controls">{{ form_widget(form.fullname,{'attr':{'class':'form-control', 'placeholder': 'Chuck Norris'}}) }}</div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom:15px">
+                                {{ form_label(form.email, 'E-mail') }}
+                                {{ form_errors(form.email) }}
+                                <div class="controls">{{ form_widget(form.email,{'attr':{'class':'form-control', 'placeholder': 'chuck_norris@hitme.com'}}) }}</div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom:15px">
+                                {{ form_label(form.subject, 'Subject') }}
+                                {{ form_errors(form.subject) }}
+                                <div class="controls">{{ form_widget(form.subject,{'attr':{'class':'form-control', 'placeholder': 'Help me with BDD or die'}}) }}</div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom:15px">
+                                {{ form_label(form.message, 'Message') }}
+                                {{ form_errors(form.message) }}
+                                <div class="controls">{{ form_widget(form.message,{'attr':{'class':'form-control', 'placeholder': 'I dont know about testing, teach me or suffer!'}}) }}</div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom:15px">
+                                {{ form_label(form.terms) }}
+                                {{ form_errors(form.terms) }}
+                            </div>
+
+                            <div class="control-group" style="margin-bottom:15px">
+                                {{ form_label(form.newsletter) }}
+                                {{ form_errors(form.newsletter) }}
+                            </div>
+
+                            {{ form_rest(form) }}
+
+                            <input type="submit" class="btn btn-primary" value="Send Contact Form Request"/>
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock content %}

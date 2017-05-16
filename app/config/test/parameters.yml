@@ -1,0 +1,8 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: mb_test
+    database_user: mb_test
+    database_password: mb_test
+    secret: this_is_a_supersecret_string_to_not_be_revealed

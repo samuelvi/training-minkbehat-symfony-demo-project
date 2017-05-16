@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service class="AppBundle\Form\Handler\SubscriptionHandler" id="app.form_handler.subscription_handler">
+            <argument id="app.domain_manager.subscription_manager" type="service"/>
+        </service>
+
+        <service class="AppBundle\Form\Handler\ContactFormHandler" id="app.form_handler.contact_form_handler">
+            <argument id="app.domain_manager.contact_form_manager" type="service"/>
+        </service>
+
+        <service class="AppBundle\DomainManager\SubscriptionManager" id="app.domain_manager.subscription_manager">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service class="AppBundle\DomainManager\ContactFormManager" id="app.domain_manager.contact_form_manager">
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service class="AppBundle\EventListener\SendSubscriptionConfirmationMailListener"
+                 id="app.event_listener.send_subscription_confirmation_mail_listener">
+            <argument type="service" id="app.service.mailer"/>
+            <tag name="kernel.event_listener" event="new_subscription_created" method="onNewSubscription"/>
+        </service>
+
+        <service class="AppBundle\EventListener\SendContactFormConfirmationMailListener"
+                 id="app.event_listener.send_contact_form_confirmation_mail_listener">
+            <argument type="service" id="app.service.mailer"/>
+            <argument>%notifications_email%</argument>
+            <tag name="kernel.event_listener" event="new_contactform_requested" method="onNewContactForm"/>
+        </service>
+
+        <service class="AppBundle\EventListener\AbstractControllerAnnotationListener"
+                 id="app.event_listener.abstract_controller_annotation_listener">
+            <call method="setReader">
+                <argument id="annotations.reader" type="service"/>
+            </call>
+        </service>
+
+        <service class="AppBundle\EventListener\SubscriptionTrackerListener"
+                 id="app.event_listener.subscription_tracker_listener"
+                 parent="app.event_listener.abstract_controller_annotation_listener">
+            <argument type="service" id="annotation_reader"/>
+            <argument type="service" id="app.monolog.monolog_manager_subscription"/>
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
+        </service>
+
+        <service class="AppBundle\EventListener\CreateSubscriptionEventSubscriber"
+                 id="app.event_listener.create_subscription_event_subscriber">
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+
+        <service class="AppBundle\EventListener\InitializableControllerListener" id="app.event_listener.initializable_controller_listener">
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
+        </service>
+
+        <service class="AppBundle\Service\Mailer" id="app.service.mailer">
+            <argument id="swiftmailer.mailer" type="service"/>
+            <argument>%notifications_email%</argument>
+        </service>
+
+        <service class="AppBundle\Monolog\MonologManager" id="app.monolog.monolog_manager">
+            <argument id="logger" type="service"/>
+            <call method="setKernelLogsDir">
+                <argument>%kernel.logs_dir%</argument>
+            </call>
+        </service>
+
+        <service class="AppBundle\Monolog\MonologManager" id="app.monolog.monolog_manager_subscription"
+                 parent="app.monolog.monolog_manager">
+            <argument id="logger" type="service"/>
+            <tag name="monolog.logger" channel="subscription"/>
+        </service>
+
+        <service class="AppBundle\Validator\Constraints\Subscription\EmailUniqueValidator"
+                 id="tac_app.validator_constraints_subscription.email_unique_validator">
+            <tag name="validator.constraint_validator" alias="subscription_email_unique"/>
+            <argument id="app.service.subscription" type="service"/>
+        </service>
+
+        <service class="AppBundle\Service\Application" id="app.service.application">
+            <argument id="security.token_storage" type="service"/>
+        </service>
+
+
+        <service class="AppBundle\Service\Subscription" id="app.service.subscription">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+        </service>
+
+        <service class="AppBundle\Service\User" id="app.service.user">
+            <argument id="fos_user.user_manager" type="service"/>
+        </service>
+
+        <service class="AppBundle\Service\Pdo" id="app.service.pdo">
+            <argument id="doctrine.orm.entity_manager" type="service"/>
+         </service>
+
+        <service class="AppBundle\Service\FrontEnd\Product" id="app.service_front_end.product">
+            <argument id="app.pagination.paginator" type="service"/>
+        </service>
+
+        <service class="AppBundle\Pagination\Paginator" id="app.pagination.paginator">
+            <argument id="app.service.pdo" type="service"/>
+            <argument>%pager_fanta_default_max_per_page%</argument>
+            <argument>%pager_fanta_max_per_page%</argument>
+        </service>
+
+        <service class="AppBundle\Service\FrontEnd\Category\Category" id="app.service_front_end_category.category">
+            <argument id="app.service.pdo" type="service"/>
+            <argument id="grid.manager" type="service"/>
+        </service>
+
+
+    </services>
+
+</container>
