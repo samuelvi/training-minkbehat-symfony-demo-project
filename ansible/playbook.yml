@@ -11,9 +11,9 @@
     - group_vars/demo/mariadb.yml
     - group_vars/demo/contents.yml
   roles:
-      #  - mariadb
-      #  - apache2
-      #  - php56-fastcgi-fpm
+        - mariadb
+        - apache2
+        - php56-fastcgi-fpm
       #  - xdebug
       #  - ntp
         - firefox
