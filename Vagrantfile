@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
 
     end
 
-    minkbehat_demo.vm.synced_folder "../", "/var/www/demo", :type => "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc']
+    minkbehat_demo.vm.synced_folder "./", "/var/www/demo", :type => "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc']
 
   end
 
