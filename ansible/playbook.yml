@@ -12,8 +12,8 @@
     - group_vars/demo/contents.yml
   roles:
         - mariadb
-        - apache2
-        - php56-fastcgi-fpm
+#        - apache2
+#        - php56-fastcgi-fpm
       #  - xdebug
       #  - ntp
         - firefox
@@ -23,6 +23,8 @@
         - phpunit
         - mailcatcher
         - contents
+        - composer
+#        - git
   tasks:
 
 

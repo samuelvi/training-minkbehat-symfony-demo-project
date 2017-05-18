@@ -29,3 +29,4 @@ vendor
 /src/AppBundle/Tests/MinkBehat/**/*.feature
 /src/AppBundle/Tests/MinkBehat/**/*.php
 data/swiftmailer/spool/default/*
+.vagrant
