@@ -6,7 +6,7 @@ php_fpm_pools:
    user: '{{ web_user }}'
    group: '{{ web_group }}'
 #   listen: 9000
-   listen: /var/run/php5-fpm.sock
+   listen: /var/run/php5.6-fpm.sock
    listen.owner: '{{ web_user }}'
    listen.group: '{{ web_group }}'
 #   chdir: /
@@ -22,15 +22,21 @@ php_fpm_pool_defaults:
 
 php_fpm_apt_packages:
   - php5.6
-  - php5-fpm
-  - php5-curl
-  - php5-mysql
-  - php5-gd
-  - php5-intl
-  - php5-mcrypt
-  - php5-redis
-  - php5-geoip
-  - php5-memcache
+  - php5.6-fpm
+  - php5.6-curl
+  - php5.6-mysql
+  - php5.6-gd
+  - php5.6-intl
+  - php5.6-mcrypt
+  - php5.6-redis
+  - php5.6-geoip
+  - php5.6-memcache
+  - php5.6-mbstring
+  - php5.6-cli
+  - php5.6-xsl
+  - php5.6-zip
+  - libapache2-mod-php5.6
+
 
 php_fpm_default_pool:
   delete: yes
@@ -50,4 +56,4 @@ php_fpm_ini:
 php_fpm_config:
  - option: "error_log"
    section: "global"
-   value: "/var/log/php5-fpm.log"
+   value: "/var/log/php5.6-fpm.log"

@@ -9,12 +9,12 @@
 
 - name: enabled modules => mod_rewrite, mod_headers, mod_ssh, mod_curl
   apache2_module: name={{ item }} state=present
-  sudo: yes
   with_items:
     - rewrite
     - headers
     - ssl
-    - actions  
+    - actions
+
   notify:
     - restart apache2
 #  ignore_errors: yes

@@ -25,7 +25,7 @@
         "symfony/monolog-bundle": "^2.8",
         "symfony/polyfill-apcu": "^1.0",
         "sensio/distribution-bundle": "^5.0",
-        "sensio/framework-extra-bundle": "^3.0.2",
+        "sensio/framework-extra-bundle": "3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "javiereguiluz/easyadmin-bundle": "^1.15",
@@ -38,7 +38,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "2.3.0",
 
-        "sensio/generator-bundle": "^3.0",
+        "sensio/generator-bundle": "3.0",
         "symfony/phpunit-bridge": "^3.0",
         "phpunit/phpunit": "5.6.1",
 
@@ -51,7 +51,7 @@
         "behat/mink-browserkit-driver": "^1.2",
         "raulfraile/ladybug": "1.0.13",
         "phpdocumentor/reflection-docblock": "2.0.4",
-        "hautelook/alice-bundle": "^1.4",
+        "hautelook/alice-bundle": "1.4",
     	"nelmio/alice": "2.1.4",
         "ciaranmcnulty/behat-stepthroughextension" : "1.0.2",
         "sensiolabs/behat-page-object-extension": "*"

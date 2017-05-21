@@ -1,5 +1,6 @@
 ---
 
+#https://www.digitalocean.com/community/questions/how-to-upgrade-from-php-v-5-5-9-to-v-5-6
 - name: repository php56
   apt_repository: repo='ppa:ondrej/php' state=present
 
@@ -9,11 +10,11 @@
   with_items:
   - libapache2-mod-fastcgi
 
-- name: Copy php5-fpm.conf
-  template: src=php5-fpm.conf.j2 dest=/etc/apache2/conf-available/php5-fpm.conf
+- name: Copy php5.6-fpm.conf
+  template: src=php5.6-fpm.conf.j2 dest=/etc/apache2/conf-available/php5.6-fpm.conf
 
-- name: link php5-fpm.conf conf-available to conf-enabled
-  file: src=/etc/apache2/conf-available/php5-fpm.conf dest=/etc/apache2/conf-enabled/php5-fpm.conf state=link
+- name: link php5.6-fpm.conf conf-available to conf-enabled
+  file: src=/etc/apache2/conf-available/php5.6-fpm.conf dest=/etc/apache2/conf-enabled/php5.6-fpm.conf state=link
 
 
 - name: Install the php packages (APT)
@@ -25,7 +26,7 @@
   with_items: "{{ php_fpm_apt_packages }}"
 #  environment: "{{ env }}"
   notify:
-     - restart php-fpm
+     - restart php5.6-fpm
   tags: [packages,php,fpm]
 
 
@@ -38,7 +39,7 @@
     backup=yes
   with_items: "{{ php_fpm_ini }}"
   notify:
-   - restart php-fpm
+   - restart php5.6-fpm
   tags: [configuration,php,fpm]
 
 
@@ -52,7 +53,7 @@
   with_items: "{{ php_fpm_config }}"
   register: copy_fpm_config
   notify:
-   - restart php-fpm
+   - restart {{ php_fpm_service_name }}
   tags: [configuration,php,fpm]
 
 - name: Delete the include line from the ini file
@@ -64,7 +65,7 @@
     backup=no
   when: copy_fpm_config.changed
   notify:
-   - restart php-fpm
+   - restart {{ php_fpm_service_name }}
   tags: [configuration,php,fpm]
 
 - name: Readd the include line to the ini file
@@ -77,7 +78,7 @@
     backup=no
   when: copy_fpm_config.changed
   notify:
-   - restart php-fpm
+   - restart {{ php_fpm_service_name }}
   tags: [configuration,php,fpm]
 
 - name: Delete the default POOL configuration file
@@ -87,6 +88,9 @@
   when: php_fpm_default_pool.delete
   tags: [configuration,php,fpm]
 
+- name: Creates directory
+  file: path={{ php_fpm_pool_d }} state=directory
+
 - name: Copy the POOL configurations
   template: >
     src=pool.conf.j2
@@ -95,23 +99,29 @@
   with_items: "{{ php_fpm_pools }}"
   when: php_fpm_pools|lower != 'none'
   notify:
-   - restart php-fpm
+   - restart {{php_fpm_binary_name}}
   tags: [configuration,php,fpm]
 
-- name: Check php-fpm syntax of configuration files
+- name: Check {{php_fpm_binary_name}} syntax of configuration files
   shell: "{{ php_fpm_binary_name }} -t"
   register: result
   changed_when: "result.rc != 0"
   tags: [configuration,php,fpm]
+  ignore_errors: True
 
-
-- name: restart php-fpm
+- name: restart {{php_fpm_binary_name}}
   service: name={{php_fpm_binary_name}} state=restarted
+  ignore_errors: True
 
-# FALLA :(
-#- name: disable php (mod_php)
-#  apache2_module: state=absent name=php5
-#  sudo: yes
+- name: enable php5
+  apache2_module: state=present name=php5.6
+
+- name: disable php5
+  apache2_module: state=absent name=php5
+  ignore_errors: True
+
+- name: enable php5
+  apache2_module: state=present name=php5.6
 
 
 #- name: enable php5-fpm
@@ -119,14 +129,27 @@
 #  ignore_errors: true
 #  sudo: yes
 
-- name: change permissions
-  file: path=/var/run/php5-fpm.sock owner={{ web_user }} group={{ web_group }} mode=0666
+#- name: change permissions
+#  file: path=/var/run/php5.6-fpm.sock owner={{ web_user }} group={{ web_group }} mode=0666
+
+
+- name: ensure file exists
+  copy:
+    content: ""
+    dest: /var/run/php5.6-fpm.sock
+    force: no
+    group: "{{ web_group }}"
+    owner: "{{ web_user }}"
+    mode: 0666
+
 
 - name: change permissions
   file: path=/var/lib/apache2/fastcgi owner={{ web_user }} group={{ web_group }} mode=0755
   sudo: yes
 
-- name: Start the php5-fpm service
+
+
+- name: Start the {{ php_fpm_service_name }} service
   service: name={{ php_fpm_service_name }} state=started enabled=yes
   tags: [service,php,fpm]
 

@@ -3,7 +3,7 @@ ip_whitelist:
   - "{{ lookup('pipe', 'curl -4 -s https://api.ipify.org') }}"
 www_root: /var/www
 www_root_ssh: /var/www/.ssh
-web_user: vagrant
-web_group: vagrant
+web_user: www-data
+web_group: www-data
 default_timezone: Europe/Madrid
 http_port: 80

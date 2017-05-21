@@ -35,7 +35,7 @@ Vagrant.configure(2) do |config|
 
   # ######################################################################################################
   # This keeps right sync folder. Needs vagrant-bind plugin (vagrant plugin install vagrant-bindfs)
-  config.bindfs.bind_folder "/var/www/", "/var/www/", u: 'vagrant', g: 'vagrant'
+  config.bindfs.bind_folder "/var/www/", "/var/www/", u: 'www-data', g: 'vagrant', perms: '0775'
   config.nfs.map_uid = Process.uid
   config.nfs.map_gid = Process.gid
   # ######################################################################################################

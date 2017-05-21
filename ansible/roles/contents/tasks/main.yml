@@ -1,3 +1,4 @@
 ---
-    - include: ./mariadb/main.yml
-    - include: ./apache2/main.yml
+#    - include: ./mariadb/main.yml
+#    - include: ./apache2/main.yml
+    - include: ./user/main.yml
