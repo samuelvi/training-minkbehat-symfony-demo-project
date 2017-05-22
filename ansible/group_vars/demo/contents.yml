@@ -6,9 +6,9 @@ server_alias: 'www.mb.demo.intranet'
 directory_index: 'app_dev.php'
 base_path: /var/www/demo/
 web_base_path: '{{ base_path }}web'
-vhost_j2_file: vhost.mb.demo.intranet.conf.j2
-vhost_file: vhost.mb.demo.intranet.conf
 
+vhost_file_dev: demo.dev.conf
+vhost_file_test: demo.test.conf
 
 # MARIADB CUSTOM SETUP
 databases:

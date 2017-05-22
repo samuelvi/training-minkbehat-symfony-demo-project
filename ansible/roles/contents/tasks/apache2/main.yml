@@ -8,6 +8,15 @@
         mode: 0755
         state: directory
 
+    - name: apache2 listen on port 8000
+      lineinfile:
+          path: /etc/apache2/ports.conf
+          insertafter: '^Listen 80$'
+          line: 'Listen 8000'
+          state: present
+      notify:
+        - restart apache2
+
 # DO NOT CREATE FOLDER BECAUSE THE FOLDER IS DEFINED AS SYNC FOLDER
 #    - name: Create Folders for {{ server_name }} Server Name
 #      file: path="{{ item }}" state="directory" owner="{{ web_user }}" group="{{ web_group }}"
@@ -15,15 +24,21 @@
 #        - '{{ base_path }}'
 #        - '{{ web_base_path }}'
 
-    - name: create virtual host file for {{ server_name }} Server Name
-      template: src=apache2/{{ vhost_j2_file }} dest=/etc/apache2/sites-available/{{ vhost_file }}
-
     - name: a2dissite 000-default
       command: a2dissite 000-default
 
-    - name: a2ensite {{ vhost_file }}
-      command: a2ensite {{ vhost_file }}
+    - name: create virtual host file for {{ server_name }} Server Name
+      template: src=apache2/{{ item }}.j2 dest=/etc/apache2/sites-available/{{ item }}
+      with_items:
+        - "{{ vhost_file_dev }}"
+        - "{{ vhost_file_test }}"
+
+    - name: a2ensite {{ item }}
+      command: a2ensite {{ item }}
+      with_items:
+        - "{{ vhost_file_dev }}"
+        - "{{ vhost_file_test }}"
       args:
-        creates: /etc/apache2/sites-enabled/{{ vhost_file }}
+        creates: /etc/apache2/sites-enabled/{{ item }}
       notify:
         - restart apache2

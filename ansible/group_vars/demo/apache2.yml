@@ -7,3 +7,4 @@ web_user: www-data
 web_group: www-data
 default_timezone: Europe/Madrid
 http_port: 80
+http_port_test: 8000
