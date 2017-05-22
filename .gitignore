@@ -17,8 +17,8 @@
 .DS_Store
 .idea
 vendor (copy)
-access_*.log
-error_*.log
+access*.log
+error*.log
 var/cache
 var/logs
 var/sessions

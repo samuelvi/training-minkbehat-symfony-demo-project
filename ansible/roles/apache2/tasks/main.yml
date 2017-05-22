@@ -24,7 +24,7 @@
   apt: name=libapache2-mod-php5 state=present
 
 - name: apache2 listen on port {{ http_port }}
-  lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen " line="Listen {{ http_port }}" state=present
+  lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen 80$" line="Listen {{ http_port }}" state=present
   notify:
     - restart apache2
 

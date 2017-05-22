@@ -65,11 +65,11 @@
                         <li>Download the project (request for download access)</li>
                         <li>From inside ansible folder run <pre>vagrant up</pre></li>
                         <li>Provision the virtual machine by running <pre>sudo ./playbook.yml</pre></li>
-                        <li>Prepare web assets: <pre>php bin/console assets:install --symlink</pre></li>
-                        <li>Create tables schema by running <pre>bin/console doctrine:migrations:migrate</pre></li>
-                        <li>FosUserBundle table creatigon: <pre>php bin/console doctrine:schema:update --force</pre></li>
-                        <li>Run DataFixtures: <pre>bin/console doctrine:fixtures:load</pre></li>
-                        <li>Or just create your own admin user with empty database: Create admin user: <pre>bin/console fos:user:create admin admin admin admin admin --super-admin</pre></li>
+                        <li>Update vendors for library dependencies to be installed <pre>composer install</pre></li>
+                        <li>Prepare web assets<pre>php bin/console assets:install --symlink</pre></li>
+                        <li>Create tables schema by running<pre>php bin/console doctrine:schema:update --force</pre><i>(additionally pass the environment --env=dev or --env=test)</i></li>
+                        <li>Run DataFixtures<pre>bin/console doctrine:fixtures:load</pre><i>(additionally pass the environment --env=dev or --env=test)</i></li>
+                        <li>Or just create your own admin user with empty database<pre>bin/console fos:user:create admin admin admin admin admin --super-admin</pre><i>(additionally pass the environment --env=dev or --env=test)</i></li>
                         <li>It's time to play!</li>
                     </ul>
 
