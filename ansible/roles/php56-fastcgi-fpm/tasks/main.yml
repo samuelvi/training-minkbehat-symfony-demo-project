@@ -102,12 +102,12 @@
    - restart {{php_fpm_binary_name}}
   tags: [configuration,php,fpm]
 
-- name: Check {{php_fpm_binary_name}} syntax of configuration files
-  shell: "{{ php_fpm_binary_name }} -t"
-  register: result
-  changed_when: "result.rc != 0"
-  tags: [configuration,php,fpm]
-  ignore_errors: True
+#- name: Check {{php_fpm_binary_name}} syntax of configuration files
+#  shell: "{{ php_fpm_binary_name }} -t"
+#  register: result
+#  changed_when: "result.rc != 0"
+#  tags: [configuration,php,fpm]
+#  ignore_errors: True
 
 - name: restart {{php_fpm_binary_name}}
   service: name={{php_fpm_binary_name}} state=restarted
