@@ -30,7 +30,7 @@ class Category extends AbstractGridBuilder
                 from category 
                 order by category.name
 SQL;
-        
+
         return $this->pdo->fetchAll($sql);
     }
 
