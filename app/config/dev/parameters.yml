@@ -5,8 +5,4 @@ parameters:
     database_name: mb_dev
     database_user: mb_dev
     database_password: mb_dev
-<<<<<<< HEAD
     secret: this_is_a_supersecret_string_to_not_be_revealed
-=======
-    secret: this_is_a_supersecret_string_to_not_be_revealed
->>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b

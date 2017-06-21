@@ -30,20 +30,14 @@ SubmitFormManager.prototype.isValid = function () {
 
     if ('' === this.getForm().find('#subscription_type_email').val()) {
         alert('You must fill in an e-mail');
-<<<<<<< HEAD
         $('#subscription_type_email').focus();
-=======
->>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
         isValid = false;
     } else if (!this.getForm().find('#subscription_type_legal').prop('checked')) {
         alert('You must accept terms and conditions');
         isValid = false;
     } else if ('' === this.getForm().find('#subscription_type_fullname').val()) {
         alert('You must fill in a full name');
-<<<<<<< HEAD
         $('#subscription_type_fullname').focus();
-=======
->>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
         isValid = false;
     }
 
