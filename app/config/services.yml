@@ -7,6 +7,7 @@ services:
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
+<<<<<<< HEAD
             - { name: twig.extension }
 
     # The project was originally created in Symfony 2.8 and autowire was not considered
@@ -18,3 +19,6 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     AppBundle\:
         resource: '%kernel.project_dir%/src/AppBundle/{Twig}'
+=======
+            - { name: twig.extension }
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b

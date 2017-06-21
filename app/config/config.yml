@@ -7,7 +7,10 @@ imports:
     - { resource: common/monolog.yml }
     - { resource: common/pager_fanta.yml }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
@@ -63,8 +66,13 @@ doctrine:
 
 
 twig:
+<<<<<<< HEAD
     form_themes:
         - 'bootstrap_3_layout.html.twig'
+=======
+    form:
+        resources: ['bootstrap_3_layout.html.twig']
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
 
 
 
@@ -98,4 +106,8 @@ doctrine_migrations:
     dir_name: "%kernel.root_dir%/DoctrineMigrations"
     namespace: Application\Migrations
     table_name: migration_versions
+<<<<<<< HEAD
     name: Application Migrations
+=======
+    name: Application Migrations
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b

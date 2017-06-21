@@ -1,6 +1,9 @@
 imports:
     - { resource: config.yml }
+<<<<<<< HEAD
     - { resource: ./prod/app.yml }
+=======
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
 
 #doctrine:
 #    orm:

@@ -4,11 +4,19 @@ namespace AppBundle\Monolog;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
+<<<<<<< HEAD
 use Psr\Log\LoggerInterface;
+=======
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
 use Symfony\Bridge\Monolog\Logger;
 
 use Monolog\Logger as BaseLogger;
 
+<<<<<<< HEAD
+=======
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
+
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
 class MonologManager
 {
     /** @var Logger $logger  */

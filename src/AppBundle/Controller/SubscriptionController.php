@@ -21,7 +21,10 @@ class SubscriptionController extends Controller
      */
     public function addAction(Request $request)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> f1e28cf3bf484eac08fc32c4bbd86d88bfdea34b
         $subscriptionEntity = new SubscriptionEntity();
         $form = $this->createForm(SubscriptionType::class, $subscriptionEntity);
 
