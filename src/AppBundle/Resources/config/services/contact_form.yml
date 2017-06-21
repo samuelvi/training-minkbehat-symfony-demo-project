@@ -1,0 +1,22 @@
+services:
+
+    app.form_handler.contact_form_handler:
+        class: AppBundle\Form\Handler\ContactFormHandler
+        arguments: ['@app.domain_manager.contact_form_manager']
+
+    app.domain_manager.contact_form_manager:
+        class: AppBundle\DomainManager\ContactFormManager
+        arguments: ['@event_dispatcher']
+
+    app.event_listener.send_contact_form_confirmation_mail_listener:
+        class: AppBundle\EventListener\SendContactFormConfirmationMailListener
+        tags:
+            - { name: kernel.event_listener, event: new_contactform_requested, method: onNewContactForm }
+        arguments: ['@app.service.mailer', '%notifications_email%']
+
+
+    app.event_listener.create_subscription_from_contact_form_listener:
+        class: AppBundle\EventListener\CreateSubscriptionFromContactFormListener
+        tags:
+            - { name: kernel.event_listener, event: new_contactform_requested, method: onNewContactForm }
+        arguments: ['@app.service.subscription']

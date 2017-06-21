@@ -1,0 +1,32 @@
+easy_admin:
+    site_name: 'Mink Behat Admin Dashboard'
+
+    entities:
+        User:
+            class: AppBundle\Entity\User
+            list:
+                fields: [id, username, roles]
+            edit:
+                fields: [ roles, password, username, email, enabled]
+            new:
+                fields: [ roles, plainPassword, username, email, enabled]
+
+        Subscription:
+            class: AppBundle\Entity\Subscription
+
+        Category:
+            class: AppBundle\Entity\Category
+
+        Product:
+            class: AppBundle\Entity\Product
+            list:
+                fields: [id, name, price, category, createdAt]
+            new:
+                fields: [name, price, category, description]
+            edit:
+                fields: [name, price, category, description]
+
+    # https://github.com/javiereguiluz/EasyAdminBundle/issues/1164
+    design:
+        templates:
+            layout: "::layouts/backend/layout.html.twig"

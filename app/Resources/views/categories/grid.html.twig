@@ -1,0 +1,73 @@
+{% extends '@APYDataGrid/blocks.html.twig' %}
+{# ------------------------------------------------------ grid ------------------------------------------------------ #}
+{% block grid %}
+    <div class="grid">
+        {% if grid.totalCount > 0 or grid.isFiltered or grid.noDataMessage is sameas(false) %}
+            <form id="{{ grid.hash }}" action="{{ grid.routeUrl }}" method="post">
+                <div class="grid_header">
+                    {% if grid.massActions|length > 0 %}
+                        {{ grid_actions(grid) }}
+                    {% endif %}
+                </div>
+                <div class="grid_body">
+                    <ul>
+                        {% if grid.isTitleSectionVisible %}
+                            {{ grid_titles(grid) }}
+                        {% endif %}
+                        {% if grid.isFilterSectionVisible %}
+                            {{ grid_filters(grid) }}
+                        {% endif %}
+                        {{ grid_rows(grid) }}
+                    </ul>
+                </div>
+                <div class="grid_footer">
+                    {% if grid.isPagerSectionVisible %}
+                        {{ grid_pager(grid) }}
+                    {% endif %}
+                    {% if grid.exports|length > 0 %}
+                        {{ grid_exports(grid) }}
+                    {% endif %}
+                    {% if grid.tweaks|length > 0 %}
+                        {{ grid_tweaks(grid) }}
+                    {% endif %}
+                </div>
+                {% if withjs %}
+                    {{ grid_scripts(grid) }}
+                {% endif %}
+            </form>
+        {% else %}
+            {{ grid_no_data(grid) }}
+        {% endif %}
+    </div>
+{% endblock grid %}
+{# -------------------------------------------------- grid_filters -------------------------------------------------- #}
+{% block grid_filters %}
+{% endblock grid_filters %}
+{# -------------------------------------------------- grid_search -------------------------------------------------- #}
+{% block grid_search %}
+{% endblock grid_search %}
+{# ---------------------------------------------------- grid_rows --------------------------------------------------- #}
+{% block grid_rows %}
+    {% for row in grid.rows %}
+        {% set last_row = loop.last %}
+        {% spaceless %}
+            {% set gridColumns %}
+                {% for column in grid.columns %}
+                    {% if column.visible(grid.isReadyForExport) %}
+                        <li class="grid-column-{{ column.renderBlockId }}{% if column.class %} {{ column.class }}{% endif %}{% if column.align != 'left'%} align-{{ column.align }}{% endif %}{% if loop.last %} last-column{% endif %}{% if last_row %} last-row{% endif %}">{{ grid_cell(column, row, grid)|raw }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endset %}
+            <ul{% if row.color != '' %} style="background-color:{{ row.color }};"{% endif %} class="grid-row-cells {{ cycle(['odd', 'even'], loop.index) }}{% if row.class != '' %} {{ row.class }}{% endif %}">
+            {{ gridColumns }}
+        {% endspaceless %}
+        </ul>
+    {% else %}
+        {{ grid_no_result(grid) }}
+    {% endfor %}
+{% endblock grid_rows %}
+
+{# ---------------------------------------------------- column_custom_rendering --------------------------------------------------- #}
+{% block grid_column_category_name_cell %}
+    <a href="{{ path('products', {'category': value }) }}">{{ value }}</a>
+{% endblock %}

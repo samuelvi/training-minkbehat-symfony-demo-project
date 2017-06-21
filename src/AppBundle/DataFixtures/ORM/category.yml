@@ -1,0 +1,9 @@
+AppBundle\Entity\Category:
+    category_books:
+        name: Books
+    category_music:
+        name: Music
+    category_clothes:
+        name: Clothes
+    category_films:
+        name: Films

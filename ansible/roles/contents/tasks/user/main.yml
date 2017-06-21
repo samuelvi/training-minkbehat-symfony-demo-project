@@ -1,0 +1,11 @@
+---
+
+- user:
+    name: www-data
+    comment: "apache2-user"
+    group: www-data
+    password: vagrant
+    shell: "/bin/bash"
+
+- name: Copy .bash_login to vagrant home
+  template: src=user/.bash_login dest=/home/vagrant/.bash_login

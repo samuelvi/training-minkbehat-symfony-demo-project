@@ -1,0 +1,6 @@
+---
+- name: restart {{ php_fpm_service_name }}
+  service: name={{php_fpm_service_name}} state=restarted
+
+- name: reload {{ php_fpm_service_name }}
+  service: name={{php_fpm_service_name}} state=reloaded

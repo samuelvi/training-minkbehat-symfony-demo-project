@@ -1,0 +1,9 @@
+---
+
+mysql_root_password: 'mysql_root'
+
+mysql_replica:
+    minkbehat_demo:
+        server_id: 1
+        auto_increment_increment: 1
+        auto_increment_offset: 1

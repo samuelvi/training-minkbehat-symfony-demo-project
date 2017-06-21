@@ -1,0 +1,31 @@
+- name: Install mailcatcher dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+      - build-essential
+      - sqlite3
+      - libsqlite3-dev
+      - ruby2.0-dev
+      - ruby2.0
+  sudo: yes
+
+- name: Symlink exists for Ruby 2.0
+  file: src=/usr/bin/ruby2.0 dest=/usr/local/bin/ruby state=link
+
+- name: Symlink exists for Ruby Gems 2.0
+  file: src=/usr/bin/gem2.0 dest=/usr/local/bin/gem state=link
+
+
+- name: Check for mailcatcher
+  stat:
+    path=/usr/local/bin/mailcatcher
+  register: mailcatcher_installed
+
+- name: Install Mailcatcher
+  command: gem install mailcatcher
+  sudo: yes
+  when: not mailcatcher_installed.stat.exists
+
+- name: Create upstart script for mailcatcher
+  template: src=mailcatcher.j2 dest=/etc/init/mailcatcher.conf mode=0644
+  notify:
+    - restart mailcatcher

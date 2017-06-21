@@ -1,0 +1,25 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: mb_dev
+    database_user: mb_dev
+    database_password: mb_dev
+
+    secret: this_is_a_supersecret_string_to_not_be_revealed
+
+    mailer_transport: smtp
+    mailer_host: 'localhost'
+    mailer_port: 1025
+    mailer_user: 'minkbehat@gmail.com'
+    mailer_password: null
+    mailer_auth_mode: login
+    mailer_encryption: null
+
+
+#    mailer_transport: gmail
+#    mailer_host: smtp.gmail.com
+#    mailer_user: minkbehat@gmail.com
+#    mailer_password: ---
+#    mailer_encryption: ssl
+#    mailer_auth_mode: login

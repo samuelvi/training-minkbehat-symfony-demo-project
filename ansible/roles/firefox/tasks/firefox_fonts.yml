@@ -1,0 +1,12 @@
+---
+
+- name: Install Firefox Fonts
+  sudo: yes
+  apt: pkg={{ item }} state=present
+  with_items: "{{ firefox_fonts }}"
+
+#- apt: name=xfonts-100dpi    pkg=xfonts-100dpi      state=present
+#- apt: name=xfonts-75dpi     pkg=xfonts-75dpi       state=present
+#- apt: name=xfonts-cyrillic  pkg=xfonts-cyrillic    state=present
+#- apt: name=xorg             pkg=xorg               state=present
+#- apt: name=dbus-x11         pkg=dbus-x11           state=present

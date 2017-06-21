@@ -1,0 +1,67 @@
+imports:
+    - { resource: ./services/contact_form.yml }
+    - { resource: ./services/subscription.yml }
+
+services:
+
+
+    app.event_listener.abstract_controller_annotation_listener:
+        class: AppBundle\EventListener\AbstractControllerAnnotationListener
+        calls:
+            - [setReader, ['@annotations.reader']]
+
+    app.event_listener.initializable_controller_listener:
+        class: AppBundle\EventListener\InitializableControllerListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            
+    app.service.mailer:
+        class: AppBundle\Service\Mailer
+        arguments: ['@swiftmailer.mailer', '%notifications_email%']
+
+    app.monolog.monolog_manager:
+        class: AppBundle\Monolog\MonologManager
+        arguments: ['@logger']
+        calls:
+            - [setKernelLogsDir, ['%kernel.logs_dir%']]
+
+    app.monolog.monolog_manager_subscription:
+        class: AppBundle\Monolog\MonologManager
+        parent: app.monolog.monolog_manager
+        tags:
+            - { name: monolog.logger, channel: subscription }
+        arguments: ['@logger']
+
+    tac_app.validator_constraints_subscription.email_unique_validator:
+        class: AppBundle\Validator\Constraints\Subscription\EmailUniqueValidator
+        tags:
+            - { name: validator.constraint_validator, alias: subscription_email_unique }
+        arguments: ['@app.service.subscription']
+
+    app.service.application:
+        class: AppBundle\Service\Application
+        arguments: ['@security.token_storage']
+
+    app.service.subscription:
+        class: AppBundle\Service\Subscription
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.service.user:
+        class: AppBundle\Service\User
+        arguments: ['@fos_user.user_manager']
+
+    app.service.pdo:
+        class: AppBundle\Service\Pdo
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.service_front_end.product:
+        class: AppBundle\Service\FrontEnd\Product
+        arguments: ['@app.pagination.paginator']
+
+    app.pagination.paginator:
+        class: AppBundle\Pagination\Paginator
+        arguments: ['@app.service.pdo', '%pager_fanta_default_max_per_page%', '%pager_fanta_max_per_page%']
+
+    app.service_front_end_category.category:
+        class: AppBundle\Service\FrontEnd\Category\Category
+        arguments: ['@app.service.pdo', '@grid.manager']

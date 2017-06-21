@@ -1,0 +1,73 @@
+---
+- shell: hostname
+  register: current_hostname
+  
+# Install MariaDb
+- name: Add repo file
+  template: src=mariadb_ubuntu.list.j2 dest=/etc/apt/sources.list.d/mariadb.list owner=root group=root mode=0644
+  register: mariadb_list
+
+- name: Add repo key
+  apt_key: id=1BB943DB url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCBCB082A1BB943DB state=present
+  register: mariadb_key
+
+
+- name: Update apt cache
+  apt: update_cache=yes
+  when: mariadb_list.changed == True or mariadb_key.changed == True
+
+- name: Unattended package installation
+  shell: export DEBIAN_FRONTEND=noninteractive
+  changed_when: false
+
+- name: Install MariaDB
+  apt: pkg={{ item }} state=present
+  with_items:
+    - mariadb-server
+    - mariadb-client
+    - mariadb-common
+
+- name: Install MySQLdb Python package for secure installations.
+  apt: pkg={{ item }} state=present
+  with_items:
+    - python-mysqldb
+
+
+- name: mysql | Update root password for all root accounts
+  mysql_user: name=root host={{ item }} check_implicit_admin=yes password={{ mysql_root_password }} login_user=root login_password={{ mysql_root_password }}
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+
+- name: Add my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0600
+
+- name: mysql-restart
+  service: name=mysql state=restarted
+  sudo: yes
+
+
+# Secure installation
+- name: Ensure python mysql is installed
+  apt: pkg=python-mysqldb state=installed force=yes
+
+- name: Remove empty password users
+  mysql_user: name='' password='' host=localhost priv=*.*:USAGE state=absent login_user=root login_password={{ mysql_root_password }}
+
+- name: Remove the MySQL test database
+  mysql_db: db=test state=absent login_user=root login_password={{ mysql_root_password }}
+
+
+- name: mysql | Ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }} state=absent login_user=root login_password={{ mysql_root_password }}
+  with_items:
+    - "{{ current_hostname.stdout | lower }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+
+
+

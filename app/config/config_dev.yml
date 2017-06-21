@@ -1,0 +1,44 @@
+imports:
+    - { resource: config.yml }
+    - { resource: dev/parameters.yml }
+    - { resource: dev/app.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            channels: [!event]
+        console:
+            type:   console
+            channels: [!event, !doctrine]
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type:   firephp
+        #    level:  info
+        #chromephp:
+        #    type:   chromephp
+        #    level:  info
+
+swiftmailer:
+    mailers:
+        default:
+            disable_delivery: false
+            delivery_address: %mailer_user%
+
+            spool:
+                type: memory
+#               type: file
+#                path: %kernel.root_dir%/../CUSTOM_PATH

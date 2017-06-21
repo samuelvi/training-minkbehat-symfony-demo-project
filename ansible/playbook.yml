@@ -1,0 +1,37 @@
+#!/usr/bin/env ansible-playbook -i inventories
+
+- name: Configure LAMP Apache2/Php56-Fpm/MariaDb Server
+  hosts: demo
+  sudo: True
+  vars:
+
+  vars_files:
+    - group_vars/demo/apache2.yml
+    - group_vars/demo/php56-fpm.yml
+    - group_vars/demo/mariadb.yml
+    - group_vars/demo/contents.yml
+  roles:
+        - mariadb
+        - apache2
+        - php56-fastcgi-fpm
+        - xdebug
+        - ntp
+        - firefox
+        - xvfb
+        - java
+        - chrome
+        - phpunit
+        - mailcatcher
+        - contents
+        - composer
+        - git
+  tasks:
+
+
+  handlers:
+
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+    - name: restart php-fpm
+      service: name={{php_fpm_binary_name}} state=restarted

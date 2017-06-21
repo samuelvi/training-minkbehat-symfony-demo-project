@@ -1,0 +1,6 @@
+echo ""
+echo "******************************************"
+echo "*** WELCOME TO MINK&BEHAT DEMO PROJECT ***"
+echo "******************************************"
+echo ""
+cd /var/www/demo

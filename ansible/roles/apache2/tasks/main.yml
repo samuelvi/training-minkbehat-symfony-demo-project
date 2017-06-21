@@ -1,0 +1,40 @@
+---
+
+- name: install apache2
+  apt: name=apache2 update_cache=yes state=latest
+
+- name: start apache2 on boot
+  service: name=apache2 state=started enabled=yes
+  tags: apache2_boot
+
+- name: enabled modules => mod_rewrite, mod_headers, mod_ssh, mod_curl
+  apache2_module: name={{ item }} state=present
+  with_items:
+    - rewrite
+    - headers
+    - ssl
+    - actions
+
+  notify:
+    - restart apache2
+#  ignore_errors: yes
+
+
+- name: Install PHP module for Apache
+  apt: name=libapache2-mod-php5 state=present
+
+- name: apache2 listen on port {{ http_port }}
+  lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen 80$" line="Listen {{ http_port }}" state=present
+  notify:
+    - restart apache2
+
+- name: apache2 virtualhost on port {{ http_port }}
+  lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="^<VirtualHost \*:" line="<VirtualHost *:{{ http_port }}>"
+  notify:
+    - restart apache2
+
+- name: Change User apache2 will run with
+  lineinfile: "dest=/etc/apache2/envvars state=present regexp='^export APACHE_RUN_USER' line='export APACHE_RUN_USER={{ web_user }}'"
+
+- name: Change Group apache2 will run with
+  lineinfile: "dest=/etc/apache2/envvars state=present regexp='^export APACHE_RUN_GROUP' line='export APACHE_RUN_GROUP={{ web_group }}'"

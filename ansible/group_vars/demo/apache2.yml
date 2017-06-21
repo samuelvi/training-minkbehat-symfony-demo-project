@@ -1,0 +1,10 @@
+apt_cache_valid_time: 86400
+ip_whitelist:
+  - "{{ lookup('pipe', 'curl -4 -s https://api.ipify.org') }}"
+www_root: /var/www
+www_root_ssh: /var/www/.ssh
+web_user: www-data
+web_group: www-data
+default_timezone: Europe/Madrid
+http_port: 80
+http_port_test: 8000

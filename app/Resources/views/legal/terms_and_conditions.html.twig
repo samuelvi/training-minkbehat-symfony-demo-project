@@ -1,0 +1,22 @@
+{% extends 'layouts/frontend/layout.html.twig' %}
+
+{% block content %}
+    <div class="legal cookies">
+        {% embed "layouts/frontend/views/jumbotron.html.twig" %}
+            {% block subtitle %}
+                <h2>You are here: Terms and Conditions</h2>
+            {% endblock subtitle %}
+        {% endembed %}
+
+        <div class="container legal-cookies">
+            <div class="row-fluid">
+                <div class="col-xs-12">
+                    <p>@TODO: Terms and conditions Text comes here</p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
