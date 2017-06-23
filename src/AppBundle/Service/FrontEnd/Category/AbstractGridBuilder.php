@@ -21,10 +21,4 @@ abstract class AbstractGridBuilder
         $grid->getColumn('category_name')->setSafe(false);
         $grid->getColumn('category_name')->setAlign(Column::ALIGN_LEFT);
     }
-
-
-    public function getCategoriesAllGrid()
-    {
-
-    }
 }

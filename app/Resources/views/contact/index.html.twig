@@ -18,7 +18,8 @@
                 <div class="contact-content">
                     <div class="center-content">
 
-                        <form action="{{ path('contact_form') }}" {{ form_enctype(form) }} method="POST" role="form" novalidate>
+                        {{ form_start(form, {'action': url('contact_form'), 'method': 'POST', 'attr': {'role': 'form', 'novalidate': 'novalidate'}}) }}
+                        {#<form action="{{ path('contact_form') }}" {{ form_enctype(form) }} method="POST" role="form" novalidate>#}
 
                             <div class="control-group" style="margin-bottom:15px">
                                 {{ form_label(form.fullname, 'Full name') }}
@@ -58,7 +59,8 @@
 
                             <input type="submit" class="btn btn-primary" value="Send Contact Form Request"/>
 
-                        </form>
+                        {{ form_end(form) }}
+                        {#</form>#}
 
                     </div>
                 </div>

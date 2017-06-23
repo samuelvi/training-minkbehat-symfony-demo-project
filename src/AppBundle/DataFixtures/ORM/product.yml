@@ -3,7 +3,7 @@ AppBundle\Entity\Product:
         name: <firstName()>
         price: <numberBetween(5,300)>
         description: <sentence()>
-        category: @category_*
+        category: '@category_*'
         createdAt: '<dateTimeBetween("-30 days", "now")>'
 
     product_rocky_1:
@@ -17,19 +17,19 @@ AppBundle\Entity\Product:
         name: 'Rocky II'
         price: 19.95
         description: 'Rocky struggles in family life after his bout with Apollo Creed, while the embarrassed champ insistently goads him to accept a challenge for a rematch.'
-        category: @category_films
+        category: '@category_films'
         createdAt: '<dateTimeBetween("-30 days", "now")>'
 
     product_rocky_5:
         name: 'Rocky V'
         price: 14.85
         description: "Reluctantly retired from boxing and back from riches to rags, Rocky takes on a new protege who betrays him; As the champ's son must adjust to his family's new life after bankruptcy."
-        category: @category_films
+        category: '@category_films'
         createdAt: '<dateTimeBetween("-30 days", "now")>'
 
     product_rambo:
         name: 'RAMBO'
         price: 14.85
         description: "Former Green Beret John Rambo is pursued into the mountains surrounding a small town by a tyrannical sheriff and his deputies, forcing him to survive using his combat skills."
-        category: @category_films
+        category: '@category_films'
         createdAt: '<dateTimeBetween("-30 days", "now")>'

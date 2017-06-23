@@ -23,12 +23,14 @@ class Category extends AbstractGridBuilder
 
     public function getAllCategories()
     {
-        $sql = '
+        $sql = <<<SQL
                 select 
                   category.id category_id, 
                   category.name category_name 
                 from category 
-                order by category.name';
+                order by category.name
+SQL;
+
         return $this->pdo->fetchAll($sql);
     }
 

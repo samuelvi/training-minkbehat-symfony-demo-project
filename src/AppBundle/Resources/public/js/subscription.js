@@ -30,12 +30,14 @@ SubmitFormManager.prototype.isValid = function () {
 
     if ('' === this.getForm().find('#subscription_type_email').val()) {
         alert('You must fill in an e-mail');
+        $('#subscription_type_email').focus();
         isValid = false;
     } else if (!this.getForm().find('#subscription_type_legal').prop('checked')) {
         alert('You must accept terms and conditions');
         isValid = false;
     } else if ('' === this.getForm().find('#subscription_type_fullname').val()) {
         alert('You must fill in a full name');
+        $('#subscription_type_fullname').focus();
         isValid = false;
     }
 

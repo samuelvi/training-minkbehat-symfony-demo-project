@@ -4,11 +4,10 @@ namespace AppBundle\Monolog;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Logger;
 
 use Monolog\Logger as BaseLogger;
-
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class MonologManager
 {

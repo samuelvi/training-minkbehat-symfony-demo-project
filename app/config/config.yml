@@ -62,9 +62,8 @@ doctrine:
 
 
 twig:
-    form:
-        resources: ['bootstrap_3_layout.html.twig']
-
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
 
 
 # Swiftmailer Configuration

@@ -3,21 +3,21 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormError;
 
-use AppBundle\Entity\Subscription;
-
 class SubscriptionType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'email', 'text',
+            'email', TextType::class,
             array(
                 'label'     => false,
                 'required'  => true,
@@ -25,7 +25,7 @@ class SubscriptionType extends AbstractType
         );
 
         $builder->add(
-            'fullname', 'text',
+            'fullname', TextType::class,
             array(
                 'label'     => false,
                 'required'  => true,
@@ -33,7 +33,7 @@ class SubscriptionType extends AbstractType
         );
 
         $builder->add(
-            'legal', 'checkbox',
+            'legal', CheckboxType::class,
             array(
                 'label' => 'Accept terms and conditions *',
                 'required' => true,
@@ -46,7 +46,7 @@ class SubscriptionType extends AbstractType
 
     public function onPostSubmit(FormEvent $event)
     {
-        /** @var Form $form */
+        /** @var FormInterface $form */
         $form = $event->getForm();
         if (null === $form) {
             return;
@@ -63,17 +63,16 @@ class SubscriptionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Subscription',
             'attr' => array(
-                'id' => $this->getName()
+                'id' => $this->getBlockPrefix()
             ),
             'custom_parameters' => null,
         ));
     }
 
-
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'subscription_type';
     }

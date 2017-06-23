@@ -9,7 +9,8 @@
 
     <div class="row form">
 
-        <form action="{{ url('subscription_add') }}" {{ form_enctype(form) }} method="POST" role="form" id="subscription_form" novalidate>
+        {{ form_start(form, {'action': url('subscription_add'), 'method': 'POST', 'attr': {'role': 'form', 'id': 'subscription_form', 'novalidate': 'novalidate'}}) }}
+        {#<form action="{{ url('subscription_add') }}" method="POST" role="form" id="subscription_form" novalidate>#}
 
             <div class="col-xs-12">
                 {{ form_label(form.email, 'E-mail *') }}
@@ -33,8 +34,9 @@
                 <button class="btn btn-primary btn-action" role="button" id="subscription_button">Request Subscription Registration</button>
             </div>
 
-            {{ form_rest(form) }}
-        </form>
+            {#{{ form_rest(form) }}#}
+        {#</form>#}
+        {{ form_end(form) }}
     </div>
 
 </div>

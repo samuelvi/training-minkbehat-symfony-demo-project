@@ -3,6 +3,9 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,7 +15,7 @@ class ContactFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'email', 'text',
+            'email', TextType::class,
             array(
                 'label'     => false,
                 'required'  => true, // Do not trust browser, for demo purposes
@@ -20,7 +23,7 @@ class ContactFormType extends AbstractType
         );
 
         $builder->add(
-            'fullname', 'text',
+            'fullname', TextType::class,
             array(
                 'label'     => false,
                 'required'  => true, // Do not trust browser, for demo purposes
@@ -28,7 +31,7 @@ class ContactFormType extends AbstractType
         );
 
         $builder->add(
-            'subject', 'text',
+            'subject', TextType::class,
             array(
                 'label'     => false,
                 'required'  => true, // Do not trust browser, for demo purposes
@@ -36,7 +39,7 @@ class ContactFormType extends AbstractType
         );
 
         $builder->add(
-            'message', 'textarea',
+            'message', TextareaType::class,
             array(
                 'label'     => false,
                 'required'  => true, // Do not trust browser, for demo purposes
@@ -44,7 +47,7 @@ class ContactFormType extends AbstractType
         );
 
         $builder->add(
-            'terms', 'checkbox',
+            'terms', CheckboxType::class,
             array(
                 'label' => 'Accept terms and conditions *',
                 'required' => true,
@@ -53,7 +56,7 @@ class ContactFormType extends AbstractType
         );
 
         $builder->add(
-            'newsletter', 'checkbox',
+            'newsletter', CheckboxType::class,
             array(
                 'label' => 'Subscribe to Newsletter *',
                 'required' => false,
@@ -73,7 +76,7 @@ class ContactFormType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Model\ContactDetail',
             'attr' => array(
-                'id' => $this->getName()
+                'id' => $this->getBlockPrefix()
             ),
             'custom_parameters' => null,
         ));
@@ -82,7 +85,7 @@ class ContactFormType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'contact_form_type';
     }
