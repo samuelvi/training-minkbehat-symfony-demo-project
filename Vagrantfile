@@ -40,5 +40,6 @@ Vagrant.configure(2) do |config|
   config.nfs.map_gid = Process.gid
   # ######################################################################################################
 
+  config.vm.provision "shell", inline: "service apache2 restart", run: "always"
 
 end
