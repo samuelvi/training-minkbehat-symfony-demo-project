@@ -1,0 +1,58 @@
+# Default Profile (Permite Herencia)
+default:
+  # Podemos tener varias suites
+  suites:
+
+    # Suite Propia, para testear el routing
+    routing:
+      mink_session: goutte
+
+      # no hará falta en este caso, lo dejamos para testear el falso positivo
+      mink_javascript_session: selenium2
+
+      # array de paths donde estarán ubicados nuestros .feature (las historias behat en gherkin)
+      paths: ['%paths.base%/../../src/AppBundle/Tests/MinkBehat/Routing/Features']
+
+      # Varios contextos. El que viene dado por Mink y los nuestros
+      contexts:
+        - Behat\MinkExtension\Context\MinkContext
+        - AppBundle\Tests\MinkBehat\BaseStepsContext
+
+        # en este caso no introduciremos lógica de negocio, puesto por la demo
+        - AppBundle\Tests\MinkBehat\Routing\Features\Context\FeatureContext
+
+
+  extensions:
+    # El pegamento entre Symfony2 y Behat
+    Behat\Symfony2Extension:
+      kernel:
+        path: app/AppKernel.php
+        class: AppKernel
+        env: test
+
+    # El pegamento entre Mink y Behat
+    Behat\MinkExtension:
+      base_url: http://localhost:8000/app_test.php
+      symfony2: ~
+      default_session: goutte
+      javascript_session: selenium2
+
+      sessions:
+
+        default:
+          symfony2: ~
+
+        goutte:
+          goutte: ~
+
+        selenium2:
+          selenium2:
+            wd_host: "http://127.0.0.1:4444/wd/hub"
+
+      browser_name: firefox
+
+# Otro Profile/Perfil. Heredará todo lo que esté por encima, en este caso lo definido en el perfil "default"
+chrome:
+  extensions:
+    Behat\MinkExtension:
+      browser_name: chrome
