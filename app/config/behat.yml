@@ -56,3 +56,4 @@ chrome:
   extensions:
     Behat\MinkExtension:
       browser_name: chrome
+
