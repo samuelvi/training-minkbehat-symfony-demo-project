@@ -12,6 +12,7 @@ Feature: Public web navigation
 
   Scenario: Visit the contact form page
     When  I follow "Contact"
+    Then  the url should match "/contact"
     Then  I should see "You are here: Contact Form"
 
   Scenario: Visit the login form page
