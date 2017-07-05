@@ -32,3 +32,4 @@ vendor
 data/swiftmailer/spool/default/*
 .vagrant
 app/config/behat_solution.yml
+src/AppBundle/Tests/MinkBehat/screenshots
