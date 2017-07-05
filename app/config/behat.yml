@@ -21,6 +21,15 @@ default:
         # en este caso no introduciremos lógica de negocio, puesto por la demo
         - AppBundle\Tests\MinkBehat\Routing\Features\Context\FeatureContext
 
+    contact_form:
+      mink_session: symfony2
+      mink_javascript_session: selenium2
+      paths: ['%paths.base%/../../src/AppBundle/Tests/MinkBehat/ContactForm/Features']
+      contexts:
+        - Behat\MinkExtension\Context\MinkContext
+        - AppBundle\Tests\MinkBehat\BaseStepsContext
+
+        - AppBundle\Tests\MinkBehat\ContactForm\Features\Context\FeatureContext
 
   extensions:
     # El pegamento entre Symfony2 y Behat
