@@ -64,4 +64,27 @@ class FeatureContext extends AbstractFeatureContext implements Context
             phpUnit::assertEquals($messagesToCheck[$idx], $message->getSubject());
         }
     }
+
+    /**
+     * @Then /^I should see an error mask next to "([^"]*)"$/
+     */
+    public function iShouldSeeAnErrorMaskNextTo($error)
+    {
+        $page = $this->getSession()->getPage();
+
+        /** @var NodeElement[] $glyphIcons */
+        $glyphIcons = $page->findAll('css', '.glyphicon-exclamation-sign');
+        phpUnit::assertNotEmpty(count($glyphIcons), 'No error mask was found');
+
+        $found = false;
+        foreach ($glyphIcons as $glyphIcon) {
+            if ($glyphIcon->getParent()->getText() == $error) {
+                $found = true;
+                break;
+            }
+        }
+
+        phpUnit::assertTrue($found,
+            sprintf('A mark should be found next to the text %s', $error));
+    }
 }

@@ -58,7 +58,7 @@ class ContactFormType extends AbstractType
         $builder->add(
             'newsletter', CheckboxType::class,
             array(
-                'label' => 'Subscribe to Newsletter *',
+                'label' => 'Subscribe to Newsletter',
                 'required' => false,
                 'mapped' => true,
             )
