@@ -40,6 +40,16 @@ default:
         - AppBundle\Tests\MinkBehat\BaseStepsContext
         - AppBundle\Tests\MinkBehat\Subscription\Features\Context\FeatureContext
 
+    product:
+      mink_session: goutte
+      mink_javascript_session: selenium2
+      paths: ['%paths.base%/../../src/AppBundle/Tests/MinkBehat/Product/Features']
+      contexts:
+        - Behat\MinkExtension\Context\MinkContext
+        - AppBundle\Tests\MinkBehat\BaseStepsContext
+        - AppBundle\Tests\MinkBehat\Product\Features\Context\FeatureContext
+
+
   extensions:
     # El pegamento entre Symfony2 y Behat
     Behat\Symfony2Extension:
